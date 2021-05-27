@@ -123,15 +123,27 @@ void Logic(){
     switch (dir)
     {
     case LEFT:
+        if(dir == RIGHT){
+            break;
+        }
         x--;
         break;
     case RIGHT:
+        if(dir == LEFT){
+            break;
+        }
         x++;
         break;
     case UP:
+        if(dir == DOWN){
+            break;
+        }
         y--;
         break;
     case DOWN:
+        if(dir == UP){
+            break;
+        }
         y++;
         break;
     default:
