@@ -16,6 +16,7 @@ void swap(vector<int> &vec, int i, int j);
 void MergeSort(vector<int> &vec, vector<int> &temp, int low, int mid, int high);
 void MergePartition(vector<int> &vec, vector<int> &temp, int low, int high);
 void ShellSort(vector<int> &vec);
+void CountSort(vector<int>& nums);
 
 // 冒泡排序，从小到大排序
 void BubbleSort(vector<int> &vec){
@@ -90,7 +91,6 @@ void InsertSort(vector<int> &vec){
         }
         vec[pos] = value;
     }
-    
 }
 
 // 堆排序
@@ -191,6 +191,32 @@ void KuthShellSort(vector<int> &vec){
     }
 }
 
+// 计数排序
+void CountSort(vector<int>& nums){
+    //找最小 最大值 确定数组大小
+    int max = INT_MIN;
+    int min = INT_MAX;
+    for(int i = 0; i != nums.size(); ++i){
+        if(nums[i] > max) max = nums[i];
+        if(nums[i] < min) min = nums[i];
+    }
+
+    int k = max - min + 1;
+    vector<int> count(k, 0);
+    vector<int> res;
+
+    for(int i = 0; i < nums.size(); ++i){
+        count[nums[i] - min]++;
+    }
+
+    int pos = 0;
+    for(int i = 0; i < k; ++i){
+        while(count[i]>0){
+            nums[pos++] = i + min;
+            count[i]--;
+        }
+    }
+}
 //打印输出
 void print(const vector<int> vec){
     for(int i = 0; i != vec.size(); ++i){
@@ -208,6 +234,7 @@ int main(){
     // vector<int> temp = vec;
     // MergePartition(vec, temp, 0, vec.size()-1);
     // ShellSort(vec);
-    KuthShellSort(vec);
+    // KuthShellSort(vec);
+    CountSort(vec);
     print(vec);
 }
