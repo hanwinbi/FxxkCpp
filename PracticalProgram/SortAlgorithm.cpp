@@ -17,6 +17,8 @@ void MergeSort(vector<int> &vec, vector<int> &temp, int low, int mid, int high);
 void MergePartition(vector<int> &vec, vector<int> &temp, int low, int high);
 void ShellSort(vector<int> &vec);
 void CountSort(vector<int>& nums);
+int maxbit(vector<int> nums);
+void RadixSort(vector<int>& nums);
 
 // 冒泡排序，从小到大排序
 void BubbleSort(vector<int> &vec){
@@ -217,6 +219,48 @@ void CountSort(vector<int>& nums){
         }
     }
 }
+
+//基数排序
+int maxbit(vector<int> nums){
+    int max = INT_MIN;
+    int min = INT_MAX;
+    for(int i = 0; i != nums.size(); ++i){
+        if(nums[i] > max) max = nums[i];
+        if(nums[i] < min) min = nums[i];
+    }
+
+    max = max>(-min) ? max:(-min);
+    int count = 1;
+    while(max>= 10){
+        max /= 10;
+        count++;
+    }
+    return count;
+}
+
+void RadixSort(vector<int>& nums){
+    // 最大数的数位是多少
+    int bit = maxbit(nums);
+    vector<int> count(19, 0);
+    // 循环数位
+    vector<vector<int>> res(19);
+    int pos, cur;
+    for(int i = 0, mod = 1; i < bit; ++i, mod *= 10){
+        for(int i = 0; i != nums.size(); ++i){
+            pos = (nums[i]/mod) % 10;
+            res[pos+9].push_back(nums[i]);
+        }
+        cur = 0;
+
+        for(int i = 0; i < 19; ++i){
+            for(int j = 0; j < res[i].size(); ++j){
+                nums[cur++] = res[i][j];
+            }
+            res[i].clear();
+        }
+    }
+}
+
 //打印输出
 void print(const vector<int> vec){
     for(int i = 0; i != vec.size(); ++i){
@@ -235,6 +279,7 @@ int main(){
     // MergePartition(vec, temp, 0, vec.size()-1);
     // ShellSort(vec);
     // KuthShellSort(vec);
-    CountSort(vec);
+    // CountSort(vec);
+    RadixSort(vec);
     print(vec);
 }
